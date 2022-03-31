@@ -21,7 +21,10 @@
                             <th> Date & Time</th>
                             <th>action</th>
 
-
+{{-- <form class="delete-form" action="{{ route('live_matches.store,'+item.id+'') }}" method="POST">
+    @method('delete')
+<button type="submit" class="btn btn-sm btn-danger delet">delete</button>
+</form> --}}
                         </tr>
                     </thead>
 
@@ -93,7 +96,7 @@
 
                 // dataType: "json",
                 success: function (response) {
-                    console.log(response.user)
+                    // console.log(response.user)
                     // alert (response.user->team_one_name)
                     $('tbody').html("");
                     $.each(response.user, function (key, item) {
@@ -114,19 +117,20 @@
      $(document).on("click",".delet", function () {
         var id = $(this).val();
         // alert(id)
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+        });
         $.ajax({
             type: "DELETE",
-            url: "live/delet/"+id,
-            data:{
-            _token:'{{ csrf_token() }}'
-            },
-            dataType: "json",
+            url: "/live/delet/"+id,
             success: function (response) {
-                // $("tr").remove();
-                alert(response.success)
-                lodtable()
+                alert(response.success);
+                lodtable();
             }
         });
+
      });
 
 

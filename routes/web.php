@@ -1,6 +1,7 @@
 <?php
 
 use app\Helpers\general;
+use App\Models\Matchlive;
 use App\Models\live_matches;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +26,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/', function () {
         return view('backend.administration.welcome');
+    });
+    Route::DELETE('live/delet/{id}', function ($id) {
+        $val = Matchlive::find($id);
+        // return $val;
+        $val->delete();
+        // return ['success' => 'delet success '];
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     });
     Route::get('/live_information', function () {
         return view('backend.administration.live_mach_add');
@@ -51,8 +61,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('generel/seting', 'App\Http\Controllers\GenerelController@generel')->name('generel');
     Route::post('store_settings', 'App\Http\Controllers\GenerelController@store_settings')->name('store_settings');
     Route::get('face/data', 'App\Http\Controllers\GenerelController@face_data');
-    Route::delete('live/delet/{id}', 'App\Http\Controllers\GenerelController@delete');
-    // Route::DELETE('live_delet/{id}', 'App\Http\Controllers\ApiConroller@delete');
+    // Route::DELETE('/delet/{id}', 'App\Http\Controllers\GenerelController@destroy');
+
 
     Route::resource('live_matches', 'App\Http\Controllers\liveControoller');
 

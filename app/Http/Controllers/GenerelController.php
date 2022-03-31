@@ -93,16 +93,16 @@ class GenerelController extends Controller
                 'user' => $user,
             ]);
     }
-    public function delete($id)
+    public function destroy($id)
     {
 
         $val = Matchlive::find($id);
-        return $val;
-        // $val->delete();
+        // return $val;
+        $val->delete();
         // return ['success' => 'delet success '];
-        // return response()->json([
-        //     'success' => 'Record deleted successfully!'
-        // ]);
+        return response()->json([
+            'success' => 'Record deleted successfully!'
+        ]);
     }
 
 }

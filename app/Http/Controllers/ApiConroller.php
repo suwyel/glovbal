@@ -64,17 +64,25 @@ class ApiConroller extends Controller
         ]);
 
         if ($validator->fails()) {
-            return ['error' => 'data not fill '];
-            //  return self::index($request)->withErrors($validator->errors());
+            return response()->json($validator->errors(),500);
+            // return ['sms' => 'requrd is feld'];
 
+            //  return self::index($request)->withErrors($validator->errors());
+            // if ('team_one_name' == '') {
+            //     return 'team_one_name';
+            // }
 
         }else{
-            
-        //  else {
-        //     // return ['success' => 'data validat successfull '];
-        //     return ['error' => 'data not valide fill '];
-        // }
-        $live_match = new Matchlive();
+
+            $chack = Matchlive::where([
+                ['team_one_name', '=', $Request->team_one_name],
+                ['team_two_name', '=', $Request->team_two_name]
+            ])->first();
+            if ($chack) {
+                return ['success' => 'data is alredy insert  '];
+
+            }
+            $live_match = new Matchlive();
 
         $live_match->team_one_name = $Request->team_one_name;
         $live_match->team_one_image_type = $Request->team_one_image_type;
@@ -108,10 +116,58 @@ class ApiConroller extends Controller
         $live_match->save();
 
         if ($validator->fails()) {
-            return ['success' => 'data insert successfull '];
+                return ['error' => 'data not fill '];
+
+            // return ['success' => 'data insert successfull '];
         } else {
-            return ['error' => 'data not fill '];
+                // return ['error' => 'data not fill '];
+                return ['success' => 'data insert successfull '];
+
         }
+
+        //  else {
+        //     // return ['success' => 'data validat successfull '];
+        //     return ['error' => 'data not valide fill '];
+        // }
+        // $live_match = new Matchlive();
+
+        // $live_match->team_one_name = $Request->team_one_name;
+        // $live_match->team_one_image_type = $Request->team_one_image_type;
+        // $live_match->team_one_url = $Request->team_one_url;
+        // $live_match->team_two_name = $Request->team_two_name;
+        // $live_match->team_two_image_type = $Request->team_two_image_type;
+        // $live_match->team_two_url = $Request->team_two_url;
+        // $live_match->match_title = $Request->match_title;
+        // $live_match->match_date = $Request->match_date;
+        // $live_match->match_time = $Request->match_time;
+
+
+        // if ($Request->hasFile('team_one_image')) {
+        //     $file = $Request->file('team_one_image');
+        //     $filename = date('YmdHi') . $file->getClientOriginalName();
+        //     $file->move(public_path('public/Image'), $filename);
+        //     $live_match['team_one_image'] = $filename;
+        // }
+
+
+        // if ($Request->hasFile('team_two_image')) {
+        //     $file = $Request->file('team_two_image');
+        //     $filename = date('YmdHi') . $file->getClientOriginalName();
+        //     $file->move(public_path('public/Image'), $filename);
+        //     $live_match['team_two_image'] = $filename;
+        // }
+
+
+
+
+        // $live_match->save();
+
+        // if ($validator->fails()) {
+        //     return ['success' => 'data insert successfull '];
+        // } else {
+        //     return ['error' => 'data not fill '];
+        // }
+
         }
         //     $live_match = new Matchlive();
 
@@ -203,9 +259,19 @@ class ApiConroller extends Controller
             if ($Request->ajax()) {
                 return ['success' => 'data validat success '];
             } else {
-                return ['error' => 'data not updet '];
+                // return ['error' => 'data not updet '];
+                return response()->json($validator->errors(), 500);
+
             }
         }
+        // $chack = Matchlive::where([
+        //     ['team_one_name', '=', $Request->team_one_name],
+        //     ['team_two_name', '=', $Request->team_two_name]
+        // ])->first();
+        // if ($chack) {
+        //     // return ['success' => 'data is alredy insert  '];
+            // return response()->json($validator->errors(), 500);
+        // }
         // return $Request->team_one_name;
         $live_match = Matchlive::find($id);
         $live_match->team_one_name = $Request->team_one_name;

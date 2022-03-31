@@ -167,6 +167,10 @@ class liveControoller extends Controller
      */
     public function destroy($id)
     {
-        //
+        $dele = Matchlive::find($id)->get();
+        //  return $val;
+        // $dele->delete();
+    //    return ['success' => 'delet success '];
+    return $dele;
     }
 }
